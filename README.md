@@ -102,3 +102,9 @@ To run this project on your local machine, follow these steps:
 -   [ ] **User Accounts:** Add user authentication so each user can have their own private wishlist.
 -   [ ] **Database Integration:** Store the phone data and user information in a database like SQLite or PostgreSQL for better scalability and persistence.
 -   [ ] **Deployment:** Deploy the application to a cloud platform like Heroku or AWS so it's publicly accessible.
+
+## 📸 Screenshot
+<img width="1906" height="919" alt="image" src="https://github.com/user-attachments/assets/caa2aced-40e4-4172-a021-4e202e1bce95" />
+<img width="1879" height="896" alt="image" src="https://github.com/user-attachments/assets/95acda2a-8eaf-4bb9-9996-d9e18a34a7a5" />
+<img width="1883" height="909" alt="image" src="https://github.com/user-attachments/assets/aa65fc9b-047b-4521-a95c-4960d33102d1" />
+
