@@ -17,7 +17,7 @@ This project is a web application that helps users find the perfect smartphone b
 
 -   **Backend:** Python, Flask
 -   **Frontend:** HTML, Tailwind CSS, JavaScript
--   **Data Science & ML:** Pandas, NumPy, Scikit-learn, NLTK
+-   **Data Science & ML:** Pandas, NumPy, Scikit-learn, NLTK, BeautifulSoup
 
 ## 📂 Project Structure
 
@@ -43,6 +43,7 @@ The project follows a standard machine learning web application architecture.
 
 The raw `smart_phones1.csv` data is messy. The Jupyter Notebook performs several crucial steps to make it usable:
 
+-   **Data Scrapping:** Scraping the usefull data from e-commerce sites like Flipkart to create a dataset using BeautifulSoup library.
 -   **Data Cleaning:** Extracts and standardizes inconsistent data from columns like `RAM`, `ROM`, `Display_Size`, and `Current_Price`. For example, it removes currency symbols and converts storage units (MB to GB).
 -   **Feature Engineering:** New, more useful features like `Brand` and `Colour` are extracted from the `Phone_Name` column.
 -   **Handling Missing Values:** The `KNNImputer` from Scikit-learn is used to intelligently fill in missing numerical data (like `Battery` or `Price`) based on the values of similar phones.
