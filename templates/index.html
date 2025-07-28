@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Finder</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', 'Noto Sans', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* Hero Background */
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, #1e3a8a 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, #1e40af 0%, transparent 50%),
+                        radial-gradient(circle at 20% 80%, #3730a3 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, #1e40af 0%, transparent 50%);
+            filter: blur(100px);
+            opacity: 0.6;
+            animation: float 20s ease-in-out infinite;
+            z-index: -2;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-30px, -30px) rotate(1deg); }
+            66% { transform: translate(30px, -30px) rotate(-1deg); }
+        }
+        
+        /* Floating Elements */
+        .floating-orbs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1), transparent);
+            animation: drift 15s ease-in-out infinite;
+        }
+        
+        .orb:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 80%;
+            animation-delay: 0s;
+        }
+        
+        .orb:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            left: 10%;
+            animation-delay: -5s;
+        }
+        
+        .orb:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            top: 30%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+        
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-100px, -100px) scale(1.1); }
+            66% { transform: translate(100px, -50px) scale(0.9); }
+        }
+
+        /* Phone Finder Specific Styles */
+        .split-text-container {
+            display: flex;
+            font-size: 9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .text-part {
+            display: inline-block;
+            position: relative;
+            transform: translateX(0);
+            animation-duration: 2s;
+            animation-timing-function: ease-out;
+            animation-fill-mode: forwards;
+        }
+
+        .text-part.left {
+            transform: translateX(-200%);
+            animation-name: slide-in-left;
+        }
+
+        .text-part.right {
+            transform: translateX(200%);
+            animation-name: slide-in-right;
+        }
+
+        @keyframes slide-in-left {
+            0% {
+                transform: translateX(-200%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slide-in-right {
+            0% {
+                transform: translateX(200%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        h2 {
+           display: flex;
+            font-size: 5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        h2 .text-part {
+            display: inline-block;
+            position: relative;
+            transform: translateX(0);
+            animation-duration: 2s;
+            animation-timing-function: ease-out;
+            animation-fill-mode: forwards;
+        }
+
+        h2 .text-part.left {
+            transform: translateX(-200%);
+            animation-name: slide-in-left;
+        }
+
+        h2 .text-part.right {
+            transform: translateX(200%);
+            animation-name: slide-in-right;
+        }
+
+        /* Override Tailwind styles for dark theme */
+        .bg-white {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .text-\[\#111518\] {
+            color: #ffffff !important;
+        }
+
+        .text-\[\#607a8a\] {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        .bg-\[\#f0f3f5\] {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+        }
+
+        .border-\[\#dbe2e6\] {
+            border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .border-b-\[\#f0f3f5\] {
+            border-bottom-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        input, select {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        select option {
+            background-color: #1a1a1a !important;
+            color: #ffffff !important;
+            border: none !important;
+        }
+
+        select:focus {
+            outline: none !important;
+            border-color: rgba(59, 130, 246, 0.5) !important;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+        }
+
+        table {
+            background-color: rgba(0, 0, 0, 0.3) !important;
+        }
+
+        tr {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Elements -->
+    <div class="floating-orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+    <div class="hero-bg"></div>
+
+    <!-- Phone Finder App -->
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between border-b border-b-[#f0f3f5] px-10 py-3">
+          <div class="flex items-center gap-8">
+            <div class="flex items-center gap-4 text-[#111518]">
+              <div class="size-4">
+                <!-- Your logo SVG here -->
+              </div>
+               <h2>
+        <span class="text-part left">Phone &nbsp;</span> 
+        <span class="text-part right">Finder</span>
+    </h2>
+            </div>
+            
+          </div>
+          
+            </label>
+            <div class="flex gap-2">
+              <button onclick="openWishlist()" class="h-10 bg-[#f0f3f5] px-2.5 rounded-lg text-sm font-bold text-[#ed1140]">❤</button>
+              <button class="h-10 bg-[#f0f3f5] px-2.5 rounded-lg text-sm font-bold text-[#111518]">🛒</button>
+            </div>
+          </div>
+        </header>
+
+        <div class="px-40 flex-1 flex justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="px-4 py-3">
+              <!-- Main Search Bar -->
+              <form id="searchForm" method="get" action="/search" class="flex flex-col w-full h-12">
+  <div class="flex w-full items-stretch rounded-lg h-full gap-2">
+    <div class="flex items-center justify-center bg-[#f0f3f5] pl-4 rounded-l-lg text-[#607a8a]">
+      🔍
+    </div>
+    <input
+      type="text"
+      name="brand"
+      placeholder="Search for phones"
+      class="form-input flex-1 bg-[#f0f3f5] px-4 text-base text-[#111518] rounded-r-lg focus:outline-none"
+      value="{{ brand if brand else '' }}"
+    />
+    <input
+      type="number"
+      name="max_budget"
+      placeholder="Max Budget (₹)"
+      class="form-input flex-1 bg-[#f0f3f5] px-4 text-base text-[#111518] rounded-r-lg focus:outline-none"
+      value="{{ max_budget if max_budget else '' }}"
+      min="0"
+    />
+    <select name="min_ram" class="form-input flex-1 bg-[#f0f3f5] px-4 text-base text-[#111518] rounded-r-lg focus:outline-none">
+      <option value="">Min RAM (GB)</option>
+      <option value="2" {% if min_ram == '2' %}selected{% endif %}>2 GB</option>
+      <option value="4" {% if min_ram == '4' %}selected{% endif %}>4 GB</option>
+      <option value="6" {% if min_ram == '6' %}selected{% endif %}>6 GB</option>
+      <option value="8" {% if min_ram == '8' %}selected{% endif %}>8 GB</option>
+      <option value="12" {% if min_ram == '12' %}selected{% endif %}>12 GB</option>
+    </select>
+    <select name="min_rom" class="form-input flex-1 bg-[#f0f3f5] px-4 text-base text-[#111518] rounded-r-lg focus:outline-none">
+      <option value="">Min ROM (GB)</option>
+      <option value="32" {% if min_rom == '32' %}selected{% endif %}>32 GB</option>
+      <option value="64" {% if min_rom == '64' %}selected{% endif %}>64 GB</option>
+      <option value="128" {% if min_rom == '128' %}selected{% endif %}>128 GB</option>
+      <option value="256" {% if min_rom == '256' %}selected{% endif %}>256 GB</option>
+      <option value="512" {% if min_rom == '512' %}selected{% endif %}>512 GB</option>
+    </select>
+    <button type="submit" class="h-12 px-6 bg-[#f0f3f5] text-white font-bold rounded-r-lg hover:bg-[#c00e36] transition-colors">Search</button>
+  </div>
+</form>
+            </div>
+
+            <h2 class="text-[#111518] text-[22px] font-bold px-4 pb-3 pt-5">Search Results</h2>
+
+            <div class="px-4 py-3 @container">
+              <div class="flex overflow-hidden rounded-lg border border-[#dbe2e6] bg-white">
+                <table class="flex-1">
+                  <thead>
+                    <tr class="bg-white">
+                      <th class="px-4 py-3 w-[60px] text-sm font-medium text-left text-[#111518]">❤</th>
+                      <th class="px-4 py-3 w-[120px] text-sm font-medium text-left text-[#111518]">Image</th>
+                      <th class="px-4 py-3 w-[400px] text-sm font-medium text-left text-[#111518]">Phone</th>
+                      <th class="px-4 py-3 w-[400px] text-sm font-medium text-left text-[#111518]">Processor</th>
+                      <th class="px-4 py-3 w-[400px] text-sm font-medium text-left text-[#111518]">RAM</th>
+                      <th class="px-4 py-3 w-[400px] text-sm font-medium text-left text-[#111518]">ROM</th>
+                      <th class="px-4 py-3 w-[400px] text-sm font-medium text-left text-[#111518]">Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% if search_results %}
+                      {% for phone in search_results %}
+                        <tr class="border-t border-[#dbe2e6]">
+                          <td class="px-4 py-2 text-sm">
+                            <button 
+                              onclick="toggleWishlist('{{ phone.Phone }}', '{{ phone.ImageURL }}')" 
+                              class="text-xl wishlist-btn" 
+                              id="wishlist-btn-{{ phone.Phone|replace(' ', '_') }}"
+                              style="color: '{% if phone.Phone in wishlist|map(attribute='phone')|list %}#ed1140{% else %}#b0b0b0{% endif %}';"
+                            >
+                              ❤
+                            </button>
+                          </td>
+                          <td class="px-4 py-2 text-sm text-[#111518]">
+                            {% if phone.ImageURL %}
+                              <img src="{{ phone.ImageURL }}" alt="{{ phone.Phone }}" class="w-20 h-20 object-contain rounded shadow" loading="lazy" />
+                            {% else %}
+                              <span class="text-[#b0b0b0]">No Image</span>
+                            {% endif %}
+                          </td>
+                          <td class="px-4 py-2 text-sm text-[#111518]">{{ phone.Phone }}</td>
+                          <td class="px-4 py-2 text-sm text-[#607a8a]">{{ phone.Processor }}</td>
+                          <td class="px-4 py-2 text-sm text-[#607a8a]">{{ phone.RAM }} GB</td>
+                          <td class="px-4 py-2 text-sm text-[#607a8a]">{{ phone.ROM }}</td>
+                          <td class="px-4 py-2 text-sm text-[#607a8a]">{{ phone.Price }}</td>
+                        </tr>
+                      {% endfor %}
+                    {% else %}
+                      <tr class="border-t border-[#dbe2e6]">
+                        <td class="px-4 py-2 text-sm text-[#607a8a]" colspan="7">No results found. Try searching for a phone, e.g., "oneplus" or "samsung".</td>
+                      </tr>
+                    {% endif %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wishlist Side Tab -->
+<div id="wishlistTab" class="fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 transition-transform translate-x-full" style="transition: transform 0.3s;">
+  <div class="flex items-center justify-between px-6 py-4 border-b">
+    <h3 class="text-lg font-bold text-[#ed1140]">Wishlist</h3>
+    <button onclick="closeWishlist()" class="text-2xl font-bold text-[#111518]">&times;</button>
+  </div>
+  <div id="wishlistContent" class="p-6 space-y-4">
+    <!-- Wishlist items will be loaded here -->
+  </div>
+</div>
+
+<script>
+// Background animation scripts
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const heroBackground = document.querySelector('.hero-bg');
+    if (heroBackground) {
+        heroBackground.style.transform = `translateY(${scrolled * 0.5}px)`;
+    }
+});
+
+document.addEventListener('mousemove', (e) => {
+    const heroBackground = document.querySelector('.hero-bg');
+    if (heroBackground) {
+        const x = (e.clientX / window.innerWidth) * 10;
+        const y = (e.clientY / window.innerHeight) * 10;
+        heroBackground.style.transform = `translate(${x}px, ${y}px)`;
+    }
+});
+
+// Phone Finder functionality
+function isPhoneInWishlist(phone, callback) {
+  fetch('/get_wishlist')
+    .then(res => res.json())
+    .then(data => {
+      const found = data.wishlist.some(item => item.phone === phone);
+      callback(found);
+    });
+}
+
+function toggleWishlist(phone, imageURL) {
+  isPhoneInWishlist(phone, function(inWishlist) {
+    if (inWishlist) {
+      fetch('/remove_from_wishlist', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({phone: phone})
+      }).then(res => res.json()).then(data => {
+        if (data.success) {
+          document.getElementById('wishlist-btn-' + phone.replace(/ /g, '_')).style.color = '#b0b0b0';
+          loadWishlist();
+        }
+      });
+    } else {
+      fetch('/add_to_wishlist', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({phone: phone, imageURL: imageURL})
+      }).then(res => res.json()).then(data => {
+        if (data.success) {
+          document.getElementById('wishlist-btn-' + phone.replace(/ /g, '_')).style.color = '#ed1140';
+          openWishlist();
+          loadWishlist();
+        }
+      });
+    }
+  });
+}
+
+function openWishlist() {
+  document.getElementById('wishlistTab').style.transform = 'translateX(0)';
+  loadWishlist();
+}
+
+function closeWishlist() {
+  document.getElementById('wishlistTab').style.transform = 'translateX(100%)';
+}
+
+function loadWishlist() {
+  fetch('/get_wishlist')
+    .then(res => res.json())
+    .then(data => {
+      const content = document.getElementById('wishlistContent');
+      if (data.wishlist.length === 0) {
+        content.innerHTML = '<p class="text-[#607a8a]">Your wishlist is empty.</p>';
+      } else {
+        content.innerHTML = data.wishlist.map(item => `
+          <div class="flex items-center gap-4 p-3 border rounded-lg shadow">
+            <img src="${item.imageURL || ''}" alt="${item.phone}" class="w-16 h-16 object-contain rounded bg-[#f0f3f5]" />
+            <span class="font-bold text-[#111518]">${item.phone}</span>
+          </div>
+        `).join('');
+      }
+    });
+}
+
+// Optional: If you want to ensure Enter triggers search even with custom JS
+document.getElementById('searchForm').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      this.submit();
+    }
+  });
+</script>
+</body>
+</html>
